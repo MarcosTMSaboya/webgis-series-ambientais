@@ -1,3 +1,4 @@
+
 # WebGIS de séries ambientais
 
 Projeto de visualização e consulta geoespacial de séries ambientais, desenvolvido com uma API em Python e uma interface web baseada em JavaScript, HTML e CSS. O código reúne módulos para análise de indicadores, séries temporais, consultas por coordenadas e representação cartográfica.
@@ -19,3 +20,14 @@ Coordenadas, nomes de pontos, dados brutos e saídas geradas permanecem fora des
 
 ## Licença
 Este repositório não declara uma licença de software. A publicação do código no GitHub não concede, por si só, permissão de reutilização. Consulte o autor antes de reutilizar o código.
+
+
+## Imagens do projeto
+
+### Mapa e dados ambientais
+![Mapa do WebGIS Abrolhos](codex-clipboard-3340ddb3-4f5a-4484-909a-04004e87f90b.png)
+
+![Camadas e pontos no WebGIS](codex-clipboard-998bc68e-d953-4478-8c8e-0a84b9bda7eb.png)
+
+### Comparação temporal de pontos
+![Comparação temporal de pontos](codex-clipboard-8da87759-d927-4520-aa0b-dbf0d450ab25.png)
