@@ -1,0 +1,45 @@
+# Local environments and secrets
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+
+# Logs, caches, generated exports
+*.log
+Dados/
+dados/
+data/
+cache/
+.cache/
+series_completas_todos_pontos/
+series_completas_todos_pontos.zip
+
+# Geospatial, scientific, and working data
+*.geojson
+*.shp
+*.shx
+*.dbf
+*.prj
+*.gpkg
+*.gdb/
+*.nc
+*.netcdf
+*.tif
+*.tiff
+*.vrt
+*.npz
+*.npy
+*.parquet
+*.xlsx
+*.xls
+*.zip
+
+# Local and temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak

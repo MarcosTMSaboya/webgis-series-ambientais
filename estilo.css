@@ -1,0 +1,290 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+}
+
+[hidden] { display: none !important; }
+.wg-abas { display: flex; gap: 6px; }
+.wg-abas button { background: transparent; color: white; border: 1px solid #ffffff80; padding: 8px 12px; border-radius: 5px; cursor: pointer; font: inherit; }
+.wg-abas button[aria-selected="true"] { background: white; color: #14532d; font-weight: bold; }
+.wg-previa-abrir { width: 100%; padding: 8px; margin-top: 12px; background: #eff6f1; color: #14532d; border: 1px solid #14532d; border-radius: 4px; cursor: pointer; }
+#wg-previa { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 20px; gap: 10px; color: #1e293b; background: #f8fafc; }
+.wg-previa-titulo { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.wg-previa-titulo h2 { margin: 0 0 5px; font-size: 22px; }
+.wg-previa-titulo p { margin: 0; font-size: 13px; }
+.wg-previa-titulo .wg-exportar { width: auto; margin: 0; }
+.wg-previa-filtros { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; padding: 12px; background: white; border: 1px solid #cbd5e1; border-radius: 6px; }
+.wg-previa-filtros label { display: flex; flex-direction: column; gap: 5px; font-size: 12px; }
+.wg-previa-filtros input, .wg-previa-filtros select, .wg-previa-filtros button, .wg-previa-rodape button { padding: 8px; border: 1px solid #94a3b8; border-radius: 4px; font: inherit; }
+.wg-previa-busca { flex: 1; min-width: 170px; }
+#previa-estado, #previa-avisos { margin: 0; font-size: 13px; }
+#previa-avisos { color: #475569; }
+.wg-previa-grade { flex: 1; min-height: 120px; overflow: auto; border: 1px solid #cbd5e1; border-radius: 6px; background: white; }
+.wg-previa-grade table { border-collapse: separate; border-spacing: 0; width: 100%; font-size: 12px; font-variant-numeric: tabular-nums; }
+.wg-previa-grade caption { text-align: left; padding: 10px; font-weight: bold; }
+.wg-previa-grade th, .wg-previa-grade td { padding: 9px 12px; text-align: left; white-space: nowrap; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+.wg-previa-grade th { position: sticky; top: 0; background: #e8f0ec; z-index: 1; }
+.wg-previa-grade tbody tr:nth-child(even) { background: #f8fafc; }
+.wg-previa-grade tbody tr:hover { background: #edf7f1; }
+.wg-valor-ausente { color: #64748b; }
+.wg-previa-rodape { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+.wg-previa-rodape button:disabled { opacity: .45; }
+.wg-previa-escopo { margin: 0; font-size: 12px; color: #475569; }
+#wg-graficos { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 14px; padding: 20px; background: #f8fafc; color: #1e293b; }
+.wg-comparacao-layout { display: flex; flex: 1; gap: 20px; min-height: 0; }
+.wg-comparacao-filtros { flex: 0 0 285px; overflow: auto; padding-right: 8px; font-size: 13px; }
+.wg-comparacao-filtros fieldset { margin: 0 0 12px; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; background: white; }
+.wg-comparacao-filtros legend { font-weight: bold; }
+.wg-comparacao-filtros label { display: block; margin: 5px 0; }
+.wg-comparacao-filtros input:not([type="checkbox"]), .wg-comparacao-filtros select { box-sizing: border-box; width: 100%; padding: 7px; border: 1px solid #94a3b8; border-radius: 4px; }
+.wg-comparacao-filtros button, .wg-comparacao-card button { padding: 8px; border: 1px solid #94a3b8; border-radius: 4px; cursor: pointer; }
+.wg-comparacao-filtros button:disabled { opacity: .5; cursor: default; }
+.wg-comparacao-filtros .wg-exportar { margin-bottom: 8px; }
+.wg-comparacao-pontos { max-height: 210px; overflow: auto; margin: 8px 0; border-block: 1px solid #e2e8f0; }
+.wg-comparacao-pontos label { padding: 4px 0; }
+#cmp-selecao { display: block; margin-top: 6px; color: #475569; overflow-wrap: anywhere; }
+.wg-comparacao-periodo { display: flex; gap: 10px; }
+.wg-comparacao-periodo label { flex: 1; min-width: 0; }
+.wg-comparacao-resultados { flex: 1; min-width: 0; overflow: auto; }
+#cmp-estado { margin: 0 0 10px; font-size: 14px; }
+.wg-comparacao-nota { font-size: 12px; color: #475569; }
+.wg-comparacao-card { padding: 16px; background: white; border: 1px solid #cbd5e1; border-radius: 7px; margin-bottom: 16px; }
+.wg-comparacao-card h3 { font-size: 16px; margin: 0 0 8px; }
+.wg-comparacao-card p { font-size: 12px; overflow-wrap: anywhere; }
+.wg-comparacao-canvas { position: relative; height: 330px; margin: 12px 0; }
+.wg-comparacao-erro { color: #9f1239; }
+
+.wg-cabecalho-app {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 0 0 58px;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0 20px;
+  background-color: #14532d;
+  color: #fff;
+}
+
+.wg-cabecalho-app h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+#wg-alternar-painel {
+  display: none;
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 4px;
+  padding: 7px 10px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+#wg-area-app {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+}
+
+#mapa {
+  flex: 1 1 auto;
+  width: 0;
+  height: auto !important;
+  min-height: 0 !important;
+  min-width: 0;
+  position: relative;
+}
+
+#wg-painel-lateral {
+  display: flex;
+  flex: 0 0 370px;
+  width: 370px;
+  min-height: 0;
+  overflow: hidden;
+  border-left: 1px solid #cbd5e1;
+  background: #fff;
+}
+
+.wg-dashboard {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  overflow: hidden;
+  background: #fff;
+  color: #1e293b;
+  font: 13px Arial, sans-serif;
+}
+.wg-dashboard-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex: 0 0 auto;
+  padding: 11px 14px;
+  background: #14532d;
+  color: #fff;
+  font-size: 15px;
+}
+.wg-dashboard-conteudo {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.wg-dashboard-secao {
+  border-bottom: 1px solid #e2e8f0;
+}
+.wg-dashboard-secao:last-child {
+  border-bottom: 0;
+}
+.wg-dashboard-secao > summary {
+  padding: 11px 14px;
+  background: #f8fafc;
+  color: #334155;
+  font-weight: bold;
+  cursor: pointer;
+}
+.wg-dashboard-secao > summary:hover {
+  background: #f1f5f9;
+}
+.wg-dashboard-secao-conteudo {
+  padding: 10px 12px;
+}
+.wg-dashboard .leaflet-control,
+.wg-dashboard .leaflet-bar {
+  float: none;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent;
+  box-shadow: none !important;
+}
+.wg-dashboard .leaflet-control-layers-list {
+  margin-bottom: 0;
+}
+.wg-dashboard .leaflet-control-layers-overlays label,
+.wg-dashboard .leaflet-control-layers-base label {
+  margin: 4px 0;
+}
+.wg-dashboard .wg-legendas {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  box-sizing: border-box;
+}
+.wg-dashboard .wg-escala {
+  margin: 8px 0 12px;
+  font: 11px Arial, sans-serif;
+}
+.wg-dashboard .wg-escala.ativa {
+  border-left: 3px solid #14532d;
+  padding-left: 6px;
+}
+.wg-dashboard .wg-escala .wg-gradiente {
+  height: 18px;
+  border: 1px solid #94a3b8;
+  margin: 6px 0 4px;
+}
+.wg-dashboard .wg-escala .wg-marcas {
+  display: flex;
+  justify-content: space-between;
+  gap: 3px;
+  font-size: 10px;
+}
+
+.wg-painel {
+  display: flex;
+  flex-direction: column;
+  resize: both;
+  overflow: hidden;
+  box-sizing: border-box;
+  max-width: 94%;
+  max-height: calc(90vh - 58px);
+  min-height: 48px;
+  pointer-events: auto;
+}
+.wg-painel .barra-arraste { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.acoes-painel { display: inline-flex; gap: 3px; margin-left: auto; }
+.acoes-painel button {
+  border: 1px solid #94a3b8; border-radius: 3px; background: #fff;
+  color: #1e293b; font: 11px Arial, sans-serif; cursor: pointer; padding: 3px 5px;
+}
+.conteudo-painel { overflow: auto; flex: 1 1 auto; min-height: 0; min-width: 0; }
+.wg-minimizado { resize: none; }
+.wg-minimizado > .conteudo-painel { display: none !important; }
+.wg-minimizado > .barra-arraste { margin-bottom: 0 !important; }
+#painel-serie-temporal > .conteudo-painel { display: flex; flex-direction: column; }
+#painel-serie-temporal .wg-area-grafico { flex: 1; min-height: 180px; height: auto !important; position: relative; }
+.wg-legendas { background: white; padding: 8px; width: 335px; height: 260px; max-height: calc(64vh - 40px); border-radius: 6px; }
+.wg-escala { margin: 8px 0 12px; font: 11px Arial, sans-serif; }
+.wg-escala.ativa { border-left: 3px solid #14532d; padding-left: 6px; }
+.wg-gradiente { height: 12px; border: 1px solid #94a3b8; margin: 5px 0 3px; }
+.wg-marcas { display: flex; justify-content: space-between; gap: 4px; font-size: 10px; }
+.wg-exportar { width: 100%; padding: 8px; margin-top: 12px; background: #14532d; color: white; border: 0; border-radius: 4px; cursor: pointer; }
+.wg-exportar:disabled { opacity: .65; cursor: wait; }
+.wg-estado-exportacao { display: block; margin-top: 6px; }
+.wg-estado-exportacao a { display: block; margin-top: 6px; font-weight: bold; }
+.wg-indicadores { margin: 4px 0 10px; font-size: 12px; flex-shrink: 0; }
+.wg-indicadores summary { cursor: pointer; font-weight: bold; padding: 6px 0; }
+.wg-indicadores[open] { max-height: 230px; overflow: auto; }
+.wg-indicadores table { width: 100%; border-collapse: collapse; margin: 6px 0 14px; }
+.wg-indicadores th, .wg-indicadores td { text-align: left; padding: 4px 6px; border-bottom: 1px solid #e2e8f0; }
+
+@media (max-width: 700px) {
+  .wg-cabecalho-app { flex-wrap: wrap; gap: 8px; padding: 10px 12px !important; }
+  .wg-abas { order: 3; width: 100%; font-size: 12px; overflow-x: auto; }
+  .wg-abas button { white-space: nowrap; padding: 7px 9px; }
+  #wg-graficos { padding: 10px; overflow: auto; }
+  .wg-comparacao-layout { display: block; }
+  .wg-comparacao-filtros { overflow: visible; padding: 0; }
+  .wg-comparacao-resultados { overflow: visible; }
+  .wg-comparacao-canvas { height: 290px; }
+  #wg-previa { padding: 10px; overflow: auto; }
+  .wg-previa-titulo { align-items: stretch; flex-direction: column; }
+  .wg-previa-filtros { gap: 8px; }
+  .wg-cabecalho-app {
+    padding: 0 12px;
+  }
+  .wg-cabecalho-app h1 {
+    font-size: 18px;
+  }
+  #wg-alternar-painel {
+    display: inline-block;
+  }
+  #wg-area-app {
+    position: relative;
+  }
+  #wg-painel-lateral {
+    display: none;
+    position: absolute;
+    z-index: 1100;
+    inset: 0 0 0 auto;
+    width: min(370px, calc(100vw - 52px));
+    max-width: calc(100vw - 52px);
+    box-shadow: -4px 0 18px rgb(15 23 42 / 22%);
+  }
+  #wg-painel-lateral.wg-painel-visivel {
+    display: flex;
+  }
+  .wg-dashboard-secao-conteudo {
+    padding: 9px 10px;
+  }
+}

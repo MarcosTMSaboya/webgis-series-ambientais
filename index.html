@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>WebGIS Abrolhos</title>
+
+  <!-- Estilos da biblioteca Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  >
+
+  <!-- Estilos da nossa página -->
+  <link rel="stylesheet" href="estilo.css?v=comparacao-1">
+</head>
+
+<body>
+  <header class="wg-cabecalho-app">
+    <h1>WebGIS Abrolhos</h1>
+    <nav class="wg-abas" role="tablist" aria-label="Visualização">
+      <button id="aba-mapa" type="button" role="tab" aria-selected="true" aria-controls="wg-area-app">Mapa</button>
+      <button id="aba-planilha" type="button" role="tab" aria-selected="false" aria-controls="wg-previa" tabindex="-1">Planilha de dados</button>
+      <button id="aba-graficos" type="button" role="tab" aria-selected="false" aria-controls="wg-graficos" tabindex="-1">Comparar pontos</button>
+    </nav>
+    <button
+      id="wg-alternar-painel"
+      type="button"
+      aria-controls="wg-painel-lateral"
+      aria-expanded="false"
+    >Controles</button>
+  </header>
+
+  <main id="wg-area-app" role="tabpanel" aria-labelledby="aba-mapa">
+    <div id="mapa"></div>
+    <aside id="wg-painel-lateral" aria-label="Painel de controle"></aside>
+  </main>
+
+  <section id="wg-previa" role="tabpanel" aria-labelledby="aba-planilha" hidden>
+    <div class="wg-previa-titulo">
+      <div><h2>Prévia dos dados</h2><p>Confira os valores por ponto e mês antes de exportar.</p></div>
+      <button id="previa-exportar" class="wg-exportar" type="button">Exportar todos os pontos (ZIP com CSVs)</button>
+    </div>
+    <form id="previa-filtros" class="wg-previa-filtros">
+      <label>Planilha<select id="previa-tabela"><option value="series">Séries mensais</option><option value="atributos">Atributos dos pontos</option></select></label>
+      <label>Ano<input id="previa-ano" type="number" value="2020" min="2000" max="2099" step="1" required style="width:90px"></label>
+      <label>Mês<select id="previa-mes">
+        <option value="01">Janeiro</option><option value="02">Fevereiro</option>
+        <option value="03">Março</option><option value="04">Abril</option>
+        <option value="05">Maio</option><option value="06">Junho</option>
+        <option value="07">Julho</option><option value="08">Agosto</option>
+        <option value="09">Setembro</option><option value="10">Outubro</option>
+        <option value="11">Novembro</option><option value="12">Dezembro</option>
+      </select></label>
+      <label class="wg-previa-busca">Buscar ponto<input id="previa-busca" type="search" placeholder="Nome do sítio ou ponto" maxlength="150"></label>
+      <label>Linhas por página<select id="previa-tamanho"><option>25</option><option>50</option><option>100</option></select></label>
+      <button type="submit">Atualizar prévia</button>
+    </form>
+    <p id="previa-estado" role="status" aria-live="polite"></p>
+    <p id="previa-avisos"></p>
+    <div id="previa-grade" class="wg-previa-grade" role="region" aria-label="Tabela de prévia dos dados" tabindex="0" aria-busy="false">
+      <table id="previa-dados"><caption>Prévia da exportação</caption><thead></thead><tbody></tbody></table>
+    </div>
+    <div class="wg-previa-rodape">
+      <button id="previa-anterior" type="button" disabled>Anterior</button>
+      <span id="previa-pagina"></span>
+      <button id="previa-proxima" type="button" disabled>Próxima</button>
+    </div>
+    <p class="wg-previa-escopo">A exportação inclui todos os pontos e todo o período disponível. Os filtros desta prévia não restringem o arquivo exportado.</p>
+    <small id="previa-exportacao-estado" class="wg-estado-exportacao" role="status"></small>
+  </section>
+
+  <section id="wg-graficos" role="tabpanel" aria-labelledby="aba-graficos" hidden>
+    <div class="wg-previa-titulo"><div><h2>Comparar pontos</h2><p>Selecione os pontos, as variáveis e o período para gerar gráficos.</p></div></div>
+    <div class="wg-comparacao-layout">
+      <form id="cmp-form" class="wg-comparacao-filtros">
+        <fieldset><legend>Pontos (até 8 por comparação)</legend>
+          <label for="cmp-busca">Buscar ponto</label><input id="cmp-busca" type="search" placeholder="Nome do sítio ou ponto">
+          <small id="cmp-selecao">Nenhum ponto selecionado</small>
+          <div id="cmp-pontos" class="wg-comparacao-pontos"></div>
+          <button id="cmp-limpar" type="button">Limpar seleção</button>
+          <button id="cmp-recarregar" type="button" hidden>Tentar carregar pontos novamente</button>
+        </fieldset>
+        <fieldset><legend>Variáveis</legend><div id="cmp-variaveis"></div></fieldset>
+        <fieldset><legend>Período</legend>
+          <div class="wg-comparacao-periodo"><label>Ano inicial<input id="cmp-ano-inicio" type="number" min="2000" max="2099" value="2012" required></label><label>Mês inicial<select id="cmp-mes-inicio"></select></label></div>
+          <div class="wg-comparacao-periodo"><label>Ano final<input id="cmp-ano-fim" type="number" min="2000" max="2099" value="2025" required></label><label>Mês final<select id="cmp-mes-fim"></select></label></div>
+        </fieldset>
+        <label>Tipo de gráfico<select id="cmp-tipo"><option value="linha">Séries mensais</option><option value="barras">Média do período por ponto</option></select></label>
+        <button class="wg-exportar" type="submit">Gerar comparação</button>
+        <button id="cmp-csv" type="button" disabled>Baixar dados da comparação (CSV)</button>
+      </form>
+      <div class="wg-comparacao-resultados">
+        <p id="cmp-estado" role="status" aria-live="polite">Abra esta aba para selecionar os pontos.</p>
+        <p class="wg-comparacao-nota">Cada variável tem seu próprio gráfico e unidade. Cores identificam os pontos. Lacunas não são preenchidas. Médias usam apenas os meses válidos; diferenças de cobertura podem afetar a comparação. DHW e HotSpot representam máximos diários de cada mês; a média do período usa esses valores mensais.</p>
+        <div id="cmp-graficos"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Carrega a biblioteca Leaflet -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="mapa.js?v=previa-1"></script>
+<script src="previa.js?v=comparacao-1"></script>
+<script src="comparacao.js?v=comparacao-1"></script>
+
+</body>
+</html>
